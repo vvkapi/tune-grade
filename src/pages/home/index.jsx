@@ -23,6 +23,7 @@ export const Home = () => {
                     p={2}
                     borderBottom={displayType === DisplayType.Albums ? "2px solid gray" : "2px solid white"}
                     cursor="pointer"
+                    transition="background 0.2s ease-in-out"
                 >
                     <Text fontSize="2xl">{DisplayType.Albums}</Text>
                 </Box>
@@ -32,6 +33,7 @@ export const Home = () => {
                     p={2}
                     borderBottom={displayType === DisplayType.Audiobooks ? "2px solid gray" : "2px solid white"}
                     cursor="pointer"
+                    transition="background 0.2s ease-in-out"
                 >
                     <Text fontSize="2xl">{DisplayType.Audiobooks}</Text>
                 </Box>
@@ -40,6 +42,7 @@ export const Home = () => {
                     p={2}
                     borderBottom={displayType === DisplayType.Shows ? "2px solid gray" : "2px solid white"}
                     cursor="pointer"
+                    transition="background 0.2s ease-in-out"
                 >
                     <Text fontSize="2xl">{DisplayType.Shows}</Text>
                 </Box>
