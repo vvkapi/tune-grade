@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import {useNavigate} from "react-router-dom";
 
 const getRandomTime = () => {
     return Math.floor(Math.random() * (1300 - 700 + 1)) + 700;
@@ -12,6 +13,7 @@ export const Auth = () => {
     const RESPONSE_TYPE = 'token';
     const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const hash = window.location.hash;
@@ -24,6 +26,8 @@ export const Auth = () => {
             window.location.hash = '';
             window.localStorage.setItem('token', newToken);
             setToken(newToken);
+
+            navigate('/');
         } else {
             setToken(savedToken);
         }
@@ -32,7 +36,7 @@ export const Auth = () => {
         setTimeout(() => {
             setLoading(false);
         }, randomTime);
-    }, []);
+    }, [navigate]);
 
     const handleLogin = () => {
         setLoading(true);
