@@ -5,7 +5,7 @@ import {
     InputGroup,
     InputLeftElement,
     Input,
-    Button,
+    Button, Box, Text, Image, SimpleGrid
 } from "@chakra-ui/react";
 import {SearchIcon} from "@chakra-ui/icons";
 import {DisplayTypeButtons} from "./display-type-button.jsx";
@@ -56,15 +56,16 @@ export const Home = () => {
             .then(data => { return data.artists.items[0].id });
 
         // Get request with Artist ID grab all the albums from that artist
-        const returnedAlbums = await fetch ('https://api.spotify.com/v1/artists/' + artistID + '/albums' + '?include_groups=album&market=PL&limit=50', searchParameters)
+        await fetch ('https://api.spotify.com/v1/artists/' + artistID + '/albums' + '?include_groups=album&market=PL&limit=50', searchParameters)
             .then(response => response.json())
-            .then(data => {setAlbums(data.items)});
+            .then(data => {
+                setAlbums(data.items);
+            });
 
         // Display those albums to the user
     }
-    console.log(albums)
     return (
-        <Flex direction="column" align="center" mt={8}>
+        <Flex direction="column" align="center" mt={8} bg="#1f1f1f" minHeight="100vh" color="white">
             <Flex mb={8}>
                 <DisplayTypeButtons displayType={displayType} onDisplayTypeChange={handleDisplayTypeChange} />
             </Flex>
@@ -74,7 +75,7 @@ export const Home = () => {
                         <SearchIcon color="gray.300" />
                     </InputLeftElement>
                     <Input
-                        placeholder="Search for..."
+                        placeholder="Search for an artist..."
                         value={searchInput}
                         onChange={handleInputChange}
                         onKeyPress={onEnterKeyPress}
@@ -84,6 +85,18 @@ export const Home = () => {
                     Search
                 </Button>
             </Stack>
+            <Box mt={8} textAlign="center" bg="#1f1f1f" color="white" overflowX="auto">
+                <Text fontSize="xl" fontWeight="bold" mb={4}>Albums:</Text>
+                <Flex flexWrap="wrap" justifyContent="center">
+                    {albums && albums.map(album => (
+                        <Box key={album.id} textAlign="center" mx={2} mb={4} maxW="200px">
+                            <Image src={album.images[0].url} alt={album.name} boxSize="150px" mx="auto" />
+                            <Text mt={2} fontSize="sm" fontWeight="bold" isTruncated>{album.name}</Text>
+                        </Box>
+                    ))}
+                </Flex>
+            </Box>
+
         </Flex>
     );
 };
