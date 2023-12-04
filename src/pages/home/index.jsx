@@ -1,29 +1,68 @@
-import { useState } from "react";
-import { Flex } from "@chakra-ui/react";
-import {SearchBar} from "./search-bar.jsx";
+import {useState} from "react";
+import {
+    Flex,
+    Stack,
+    InputGroup,
+    InputLeftElement,
+    Input,
+    Button,
+} from "@chakra-ui/react";
+import {SearchIcon} from "@chakra-ui/icons";
 import {DisplayTypeButtons} from "./display-type-button.jsx";
 
+const DisplayType = {
+    Albums: "Albums",
+    Audiobooks: "Audiobooks",
+    Shows: "Shows",
+};
+
 export const Home = () => {
-    const [displayType, setDisplayType] = useState("Albums");
+    const [displayType, setDisplayType] = useState(DisplayType.Albums);
+    const [searchInput, setSearchInput] = useState("");
 
     const handleDisplayTypeChange = (newDisplayType) => {
         setDisplayType(newDisplayType);
     };
 
-    const handleEnterKeyPress = (event) => {
+    const onEnterKeyPress = async (event) => {
         if (event.key === "Enter") {
-            console.log("Enter key pressed! Perform your action here.");
+            await search();
         }
     };
 
-    const handleSearchButtonPress = () => {
-        console.log("Search button pressed! Perform your action here.");
+    const onSearchButtonPress = async () => {
+        await search();
     };
+
+    const handleInputChange = (event) => {
+        setSearchInput(event.target.value);
+    }
+
+    async function search() {
+        console.log("Search for " + searchInput);
+    }
 
     return (
         <Flex direction="column" align="center" mt={8}>
-            <DisplayTypeButtons displayType={displayType} onDisplayTypeChange={handleDisplayTypeChange} />
-            <SearchBar onEnterKeyPress={handleEnterKeyPress} onSearchButtonPress={handleSearchButtonPress} />
+            <Flex mb={8}>
+                <DisplayTypeButtons displayType={displayType} onDisplayTypeChange={handleDisplayTypeChange} />
+            </Flex>
+            <Stack spacing={3} direction="row" align="center">
+                <InputGroup size="lg">
+                    <InputLeftElement pointerEvents="none">
+                        <SearchIcon color="gray.300" />
+                    </InputLeftElement>
+                    <Input
+                        placeholder="Search for..."
+                        value={searchInput}
+                        onChange={handleInputChange}
+                        onKeyPress={onEnterKeyPress}
+                    />
+                </InputGroup>
+                <Button colorScheme="green" size="lg" onClick={() => onSearchButtonPress(searchInput)}>
+                    Search
+                </Button>
+            </Stack>
         </Flex>
     );
 };
