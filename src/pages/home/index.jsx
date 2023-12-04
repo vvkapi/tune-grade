@@ -19,6 +19,7 @@ const DisplayType = {
 export const Home = () => {
     const [displayType, setDisplayType] = useState(DisplayType.Albums);
     const [searchInput, setSearchInput] = useState("");
+    const token = localStorage.getItem('token');
 
     const handleDisplayTypeChange = (newDisplayType) => {
         setDisplayType(newDisplayType);
@@ -40,6 +41,22 @@ export const Home = () => {
 
     async function search() {
         console.log("Search for " + searchInput);
+
+        // Get request using search to get teh Artist ID
+        const artistParameters = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token //TODO: More safe + expired
+            }
+        };
+        const artistID = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', artistParameters)
+            .then(response => response.json())
+            .then(data => console.log(data));
+
+        // Get request with Artist ID grab all the albums from that artist
+
+        // Display those albums to the user
     }
 
     return (
