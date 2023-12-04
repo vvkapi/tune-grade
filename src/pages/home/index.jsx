@@ -19,6 +19,9 @@ const DisplayType = {
 export const Home = () => {
     const [displayType, setDisplayType] = useState(DisplayType.Albums);
     const [searchInput, setSearchInput] = useState("");
+
+    const [albums, setAlbums] = useState("");
+
     const token = localStorage.getItem('token');
 
     const handleDisplayTypeChange = (newDisplayType) => {
@@ -40,25 +43,26 @@ export const Home = () => {
     }
 
     async function search() {
-        console.log("Search for " + searchInput);
-
         // Get request using search to get teh Artist ID
-        const artistParameters = {
+        const searchParameters = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token //TODO: More safe + expired
             }
         };
-        const artistID = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', artistParameters)
+        const artistID = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', searchParameters)
             .then(response => response.json())
-            .then(data => console.log(data));
+            .then(data => { return data.artists.items[0].id });
 
         // Get request with Artist ID grab all the albums from that artist
+        const returnedAlbums = await fetch ('https://api.spotify.com/v1/artists/' + artistID + '/albums' + '?include_groups=album&market=PL&limit=50', searchParameters)
+            .then(response => response.json())
+            .then(data => {setAlbums(data.items)});
 
         // Display those albums to the user
     }
-
+    console.log(albums)
     return (
         <Flex direction="column" align="center" mt={8}>
             <Flex mb={8}>
