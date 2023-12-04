@@ -5,7 +5,7 @@ import {
     InputGroup,
     InputLeftElement,
     Input,
-    Button, Box, Text, Image, SimpleGrid
+    Button, Box, Text, Image
 } from "@chakra-ui/react";
 import {SearchIcon} from "@chakra-ui/icons";
 import {DisplayTypeButtons} from "./display-type-button.jsx";
@@ -65,7 +65,7 @@ export const Home = () => {
         // Display those albums to the user
     }
     return (
-        <Flex direction="column" align="center" mt={8} bg="#1f1f1f" minHeight="100vh" color="white">
+        <Flex direction="column" align="center" mt={8} bg="#1f1f1f" color="white">
             <Flex mb={8}>
                 <DisplayTypeButtons displayType={displayType} onDisplayTypeChange={handleDisplayTypeChange} />
             </Flex>
@@ -85,7 +85,7 @@ export const Home = () => {
                     Search
                 </Button>
             </Stack>
-            <Box mt={8} textAlign="center" bg="#1f1f1f" color="white" overflowX="auto">
+            <Box mt={8} textAlign="center" bg="#1f1f1f" color="white" mx={8} mb={8}>
                 <Text fontSize="xl" fontWeight="bold" mb={4}>Albums:</Text>
                 <Flex flexWrap="wrap" justifyContent="center">
                     {albums && albums.map(album => (
