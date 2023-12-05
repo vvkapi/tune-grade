@@ -9,7 +9,7 @@ const SearchInput = ({ value, onChange, onKeyPress }) => {
                 <SearchIcon color="gray.300" />
             </InputLeftElement>
             <Input
-                placeholder="Search for an artist..."
+                placeholder="I'm looking for..."
                 value={value}
                 onChange={onChange}
                 onKeyPress={onKeyPress}

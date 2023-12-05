@@ -6,6 +6,7 @@ import ContentDisplay from "./content-display.jsx";
 
 const DisplayType = {
     Albums: "Albums",
+    Artists: "Artists",
     Podcasts: "Podcasts",
     Playlists: "Playlists",
 };
@@ -48,6 +49,12 @@ export const Home = () => {
                 .then(response => response.json())
                 .then(data => {
                     setContent(data.shows.items);
+                });
+        } else if (displayType === DisplayType.Artists) {
+            await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', searchParameters)
+                .then(response => response.json())
+                .then(data => {
+                    setContent(data.artists.items);
                 });
         } else if (displayType === DisplayType.Playlists) {
             await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=playlist', searchParameters)
