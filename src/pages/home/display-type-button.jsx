@@ -15,23 +15,13 @@ export const DisplayTypeButtons = ({ displayType, onDisplayTypeChange }) => {
                 <Text fontSize="2xl">Albums</Text>
             </Box>
             <Box
-                onClick={() => onDisplayTypeChange("Audiobooks")}
-                mr={12}
+                onClick={() => onDisplayTypeChange("Podcasts")}
                 p={2}
-                borderBottom={displayType === "Audiobooks" ? "2px solid white" : "2px solid gray"}
+                borderBottom={displayType === "Podcasts" ? "2px solid white" : "2px solid gray"}
                 cursor="pointer"
                 transition="background 0.2s ease-in-out"
             >
-                <Text fontSize="2xl">Audiobooks</Text>
-            </Box>
-            <Box
-                onClick={() => onDisplayTypeChange("Shows")}
-                p={2}
-                borderBottom={displayType === "Shows" ? "2px solid white" : "2px solid gray"}
-                cursor="pointer"
-                transition="background 0.2s ease-in-out"
-            >
-                <Text fontSize="2xl">Shows</Text>
+                <Text fontSize="2xl">Podcasts</Text>
             </Box>
         </Flex>
     );

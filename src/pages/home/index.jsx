@@ -1,20 +1,19 @@
 import { useState } from "react";
-import { Flex, Stack, Button } from "@chakra-ui/react";
+import {Flex, Stack, Button} from "@chakra-ui/react";
 import { DisplayTypeButtons } from "./display-type-button.jsx";
 import SearchInput from "./search-input.jsx";
-import AlbumDisplay from "./album-display.jsx";
+import ContentDisplay from "./content-display.jsx";
 
 const DisplayType = {
     Albums: "Albums",
-    Audiobooks: "Audiobooks",
-    Shows: "Shows",
+    Podcasts: "Podcasts",
 };
 
 export const Home = () => {
     const [displayType, setDisplayType] = useState(DisplayType.Albums);
     const [searchInput, setSearchInput] = useState("");
 
-    const [albums, setAlbums] = useState([]);
+    const [content, setContent] = useState([]);
 
     const token = localStorage.getItem('token');
 
@@ -29,27 +28,38 @@ export const Home = () => {
     };
 
     async function search() {
-        // Get request using search to get teh Artist ID
         const searchParameters = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token //TODO: More safe + expired
+                'Authorization': 'Bearer ' + token // TODO: More safe + expired
             }
         };
-        const artistID = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', searchParameters)
-            .then(response => response.json())
-            .then(data => { return data.artists.items[0].id });
 
-        // Get request with Artist ID grab all the albums from that artist
-        await fetch ('https://api.spotify.com/v1/artists/' + artistID + '/albums' + '?include_groups=album&market=PL&limit=50', searchParameters)
-            .then(response => response.json())
-            .then(data => {
-                setAlbums(data.items);
-            });
+        if (displayType === DisplayType.Albums) {
+            let artistID = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', searchParameters)
+                .then(response => response.json())
+                .then(data => {
+                    return data.artists.items[0]?.id;
+                });
 
-        // Display those albums to the user
+            if (artistID) {
+                await fetch('https://api.spotify.com/v1/artists/' + artistID + '/albums' + '?include_groups=album&market=PL&limit=50', searchParameters)
+                    .then(response => response.json())
+                    .then(data => {
+                        setContent(data.items);
+                    });
+            }
+        } else if (displayType === DisplayType.Podcasts) {
+            await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=show', searchParameters)
+                .then(response => response.json())
+                .then(data => {
+                    setContent(data.shows.items);
+                });
+        }
     }
+
+
     return (
         <Flex direction="column" align="center" mt={8} bg="#1f1f1f" color="white">
             <Flex mb={8}>
@@ -69,7 +79,7 @@ export const Home = () => {
                     Search
                 </Button>
             </Stack>
-            <AlbumDisplay albums={albums} />
+            <ContentDisplay content={content} displayType={displayType}/>
         </Flex>
     );
 };
