@@ -6,7 +6,7 @@ export const DisplayTypeButtons = ({ displayType, onDisplayTypeChange }) => {
         <Flex mb={8}>
             <Box
                 onClick={() => onDisplayTypeChange("Albums")}
-                mr={12}
+                mr={16}
                 p={2}
                 borderBottom={displayType === "Albums" ? "2px solid white" : "2px solid gray"}
                 cursor="pointer"
@@ -16,7 +16,7 @@ export const DisplayTypeButtons = ({ displayType, onDisplayTypeChange }) => {
             </Box>
             <Box
                 onClick={() => onDisplayTypeChange("Artists")}
-                mr={12}
+                mr={16}
                 p={2}
                 borderBottom={displayType === "Artists" ? "2px solid white" : "2px solid gray"}
                 cursor="pointer"
@@ -26,7 +26,7 @@ export const DisplayTypeButtons = ({ displayType, onDisplayTypeChange }) => {
             </Box>
             <Box
                 onClick={() => onDisplayTypeChange("Podcasts")}
-                mr={12}
+                mr={16}
                 p={2}
                 borderBottom={displayType === "Podcasts" ? "2px solid white" : "2px solid gray"}
                 cursor="pointer"
