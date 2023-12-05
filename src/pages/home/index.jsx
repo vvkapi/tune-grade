@@ -1,14 +1,8 @@
-import {useState} from "react";
-import {
-    Flex,
-    Stack,
-    InputGroup,
-    InputLeftElement,
-    Input,
-    Button, Box, Text, Image
-} from "@chakra-ui/react";
-import {SearchIcon} from "@chakra-ui/icons";
-import {DisplayTypeButtons} from "./display-type-button.jsx";
+import { useState } from "react";
+import { Flex, Stack, Button } from "@chakra-ui/react";
+import { DisplayTypeButtons } from "./display-type-button.jsx";
+import SearchInput from "./search-input.jsx";
+import AlbumDisplay from "./album-display.jsx";
 
 const DisplayType = {
     Albums: "Albums",
@@ -20,13 +14,9 @@ export const Home = () => {
     const [displayType, setDisplayType] = useState(DisplayType.Albums);
     const [searchInput, setSearchInput] = useState("");
 
-    const [albums, setAlbums] = useState("");
+    const [albums, setAlbums] = useState([]);
 
     const token = localStorage.getItem('token');
-
-    const handleDisplayTypeChange = (newDisplayType) => {
-        setDisplayType(newDisplayType);
-    };
 
     const onEnterKeyPress = async (event) => {
         if (event.key === "Enter") {
@@ -37,10 +27,6 @@ export const Home = () => {
     const onSearchButtonPress = async () => {
         await search();
     };
-
-    const handleInputChange = (event) => {
-        setSearchInput(event.target.value);
-    }
 
     async function search() {
         // Get request using search to get teh Artist ID
@@ -67,36 +53,23 @@ export const Home = () => {
     return (
         <Flex direction="column" align="center" mt={8} bg="#1f1f1f" color="white">
             <Flex mb={8}>
-                <DisplayTypeButtons displayType={displayType} onDisplayTypeChange={handleDisplayTypeChange} />
+                <DisplayTypeButtons
+                    displayType={displayType}
+                    onDisplayTypeChange={setDisplayType}
+                />
             </Flex>
             <Stack spacing={3} direction="row" align="center">
-                <InputGroup size="lg">
-                    <InputLeftElement pointerEvents="none">
-                        <SearchIcon color="gray.300" />
-                    </InputLeftElement>
-                    <Input
-                        placeholder="Search for an artist..."
-                        value={searchInput}
-                        onChange={handleInputChange}
-                        onKeyPress={onEnterKeyPress}
-                    />
-                </InputGroup>
+                <SearchInput
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    onKeyPress={onEnterKeyPress}
+                    onSearchButtonPress={onSearchButtonPress}
+                />
                 <Button colorScheme="green" size="lg" onClick={() => onSearchButtonPress(searchInput)}>
                     Search
                 </Button>
             </Stack>
-            <Box mt={8} textAlign="center" bg="#1f1f1f" color="white" mx={8} mb={8}>
-                <Text fontSize="xl" fontWeight="bold" mb={4}>Albums:</Text>
-                <Flex flexWrap="wrap" justifyContent="center">
-                    {albums && albums.map(album => (
-                        <Box key={album.id} textAlign="center" mx={2} mb={4} maxW="200px">
-                            <Image src={album.images[0].url} alt={album.name} boxSize="150px" mx="auto" />
-                            <Text mt={2} fontSize="sm" fontWeight="bold" isTruncated>{album.name}</Text>
-                        </Box>
-                    ))}
-                </Flex>
-            </Box>
-
+            <AlbumDisplay albums={albums} />
         </Flex>
     );
 };
