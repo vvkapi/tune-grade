@@ -16,12 +16,22 @@ export const DisplayTypeButtons = ({ displayType, onDisplayTypeChange }) => {
             </Box>
             <Box
                 onClick={() => onDisplayTypeChange("Podcasts")}
+                mr={12}
                 p={2}
                 borderBottom={displayType === "Podcasts" ? "2px solid white" : "2px solid gray"}
                 cursor="pointer"
                 transition="background 0.2s ease-in-out"
             >
                 <Text fontSize="2xl">Podcasts</Text>
+            </Box>
+            <Box
+                onClick={() => onDisplayTypeChange("Playlists")}
+                p={2}
+                borderBottom={displayType === "Playlists" ? "2px solid white" : "2px solid gray"}
+                cursor="pointer"
+                transition="background 0.2s ease-in-out"
+            >
+                <Text fontSize="2xl">Playlists</Text>
             </Box>
         </Flex>
     );

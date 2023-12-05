@@ -7,6 +7,7 @@ import ContentDisplay from "./content-display.jsx";
 const DisplayType = {
     Albums: "Albums",
     Podcasts: "Podcasts",
+    Playlists: "Playlists",
 };
 
 export const Home = () => {
@@ -37,28 +38,25 @@ export const Home = () => {
         };
 
         if (displayType === DisplayType.Albums) {
-            let artistID = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', searchParameters)
+            await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=album', searchParameters)
                 .then(response => response.json())
                 .then(data => {
-                    return data.artists.items[0]?.id;
+                    setContent(data.albums.items);
                 });
-
-            if (artistID) {
-                await fetch('https://api.spotify.com/v1/artists/' + artistID + '/albums' + '?include_groups=album&market=PL&limit=50', searchParameters)
-                    .then(response => response.json())
-                    .then(data => {
-                        setContent(data.items);
-                    });
-            }
         } else if (displayType === DisplayType.Podcasts) {
             await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=show', searchParameters)
                 .then(response => response.json())
                 .then(data => {
                     setContent(data.shows.items);
                 });
+        } else if (displayType === DisplayType.Playlists) {
+            await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=playlist', searchParameters)
+                .then(response => response.json())
+                .then(data => {
+                    setContent(data.playlists.items);
+                });
         }
     }
-
 
     return (
         <Flex direction="column" align="center" mt={8} bg="#1f1f1f" color="white">
