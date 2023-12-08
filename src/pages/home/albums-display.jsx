@@ -5,7 +5,7 @@ import { FaStar } from 'react-icons/fa';
 const AlbumsDisplay = ({ content }) => {
     // To check whether the content even exists
     if (!content || content.length === 0) {
-        return null;
+        return null; //TODO: Obsługa pierwszego wejścia
     }
 
     const bestMatchContent = content.slice(0, 1);

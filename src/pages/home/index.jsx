@@ -1,5 +1,5 @@
-import { useState } from "react";
-import {Flex, Stack, Button} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { Flex, Stack, Button } from "@chakra-ui/react";
 import { DisplayTypeButtons } from "./display-type-button.jsx";
 import SearchInput from "./search-input.jsx";
 import ContentDisplay from "./content-display.jsx";
@@ -14,9 +14,7 @@ const DisplayType = {
 export const Home = () => {
     const [displayType, setDisplayType] = useState(DisplayType.Albums);
     const [searchInput, setSearchInput] = useState("");
-
     const [content, setContent] = useState([]);
-
     const token = localStorage.getItem('token');
 
     const onEnterKeyPress = async (event) => {
@@ -29,7 +27,13 @@ export const Home = () => {
         await search();
     };
 
-    async function search() {
+    useEffect(() => {
+        // Trigger search when displayType changes
+        search().then(r => console.log(r));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [displayType]);
+
+    const search = async () => {
         const searchParameters = {
             method: 'GET',
             headers: {
@@ -63,14 +67,19 @@ export const Home = () => {
                     setContent(data.playlists.items);
                 });
         }
-    }
+    };
+
+    const handleDisplayTypeChange = (type) => {
+        setDisplayType(type);
+        setContent([]);
+    };
 
     return (
         <Flex direction="column" align="center" mt={8} bg="#1f1f1f" color="white">
             <Flex mb={8}>
                 <DisplayTypeButtons
                     displayType={displayType}
-                    onDisplayTypeChange={setDisplayType}
+                    onDisplayTypeChange={handleDisplayTypeChange}
                 />
             </Flex>
             <Stack spacing={3} direction="row" align="center">
@@ -84,7 +93,7 @@ export const Home = () => {
                     Search
                 </Button>
             </Stack>
-            <ContentDisplay content={content} displayType={displayType}/>
+            <ContentDisplay content={content} displayType={displayType} />
         </Flex>
     );
 };
