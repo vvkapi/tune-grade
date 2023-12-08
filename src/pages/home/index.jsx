@@ -84,7 +84,7 @@ export const Home = () => {
                     Search
                 </Button>
             </Stack>
-            <ContentDisplay content={content} />
+            <ContentDisplay content={content} displayType={displayType}/>
         </Flex>
     );
 };
