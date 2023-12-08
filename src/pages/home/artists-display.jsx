@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Box, Flex, Text, Image, Grid } from "@chakra-ui/react";
 import { FaStar } from 'react-icons/fa';
 
-const AlbumsDisplay = ({ content }) => {
+const ArtistsDisplay = ({ content }) => {
     // To check whether the content even exists
     if (!content || content.length === 0) {
         return null;
@@ -29,7 +29,6 @@ const AlbumsDisplay = ({ content }) => {
                                 <Image src={item.images[0]?.url} alt={item.name} boxSize="100px" borderRadius="md" mr={4} />
                                 <Box>
                                     <Text fontSize="md" fontWeight="bold" isTruncated>{item.name}</Text>
-                                    <Text fontSize="sm" fontStyle="italic">{item.artists[0]?.name}</Text>
                                 </Box>
                             </Flex>
                         </Box>
@@ -46,7 +45,6 @@ const AlbumsDisplay = ({ content }) => {
                                     <Image src={item.images[0]?.url} alt={item.name} boxSize="100px" borderRadius="md" mr={4} />
                                     <Box>
                                         <Text fontSize="md" fontWeight="bold" isTruncated>{item.name}</Text>
-                                        <Text fontSize="sm" fontStyle="italic">{item.artists[0]?.name}</Text>
                                     </Box>
                                 </Flex>
                             </Box>
@@ -58,8 +56,8 @@ const AlbumsDisplay = ({ content }) => {
     );
 };
 
-AlbumsDisplay.propTypes = {
+ArtistsDisplay.propTypes = {
     content: PropTypes.array.isRequired,
 };
 
-export default AlbumsDisplay;
+export default ArtistsDisplay;
