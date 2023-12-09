@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Flex, Stack, Button } from "@chakra-ui/react";
-import { DisplayTypeButtons } from "./display-type-button.jsx";
-import SearchInput from "./search-input.jsx";
-import ContentDisplay from "./content-display.jsx";
+import { DisplayTypeButtons } from "./display/display-type-button.jsx";
+import SearchInput from "../../components/search-input.jsx";
+import ContentDisplay from "./display/content-display.jsx";
 
 const DisplayType = {
     Albums: "Albums",
